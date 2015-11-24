@@ -1,0 +1,16 @@
+<template name="authorisedContent">
+        <div class="content-wrapper shadow-content clearfix">
+        	<aside id="aside" class="grid-4 item-1">
+                <div id="sidebar">
+                    {{> menu}}
+                </div>
+            </aside>
+            <article id="article" class="grid-4-1 item-2">
+                {{> notices}}
+                <div id="content">
+                    {{> yield}}
+                    {{> yield "load"}}
+                </div>
+            </article>
+        </div>
+</template>
