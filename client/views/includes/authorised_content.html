@@ -1,4 +1,7 @@
 <template name="authorisedContent">
+        <header id="header" class="admin-header">
+            {{> headerLayout}}
+        </header>
         <div class="content-wrapper shadow-content clearfix">
         	<aside id="aside" class="grid-4 item-1">
                 <div id="sidebar">
@@ -13,4 +16,11 @@
                 </div>
             </article>
         </div>
+        <footer id="footer" class="admin-footer">
+            <div class="content-wrapper">
+                <div class="grid-1 item-1">
+                    <p>© 2015 АН "Модерн". Все права защищены.</p>
+                </div>
+            </div>
+        </footer>
 </template>

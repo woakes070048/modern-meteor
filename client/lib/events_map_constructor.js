@@ -1,5 +1,5 @@
 EventsMapConstructor = function (name, dataArr, requiredFields, isNew) {
-	
+
 	return {
 
 		'click .save-btn': function (e) {
@@ -85,7 +85,7 @@ EventsMapConstructor = function (name, dataArr, requiredFields, isNew) {
 
 			            Router.go(name + 'New');
 			        }
-			        
+
 			    });
 		    } else {
 
