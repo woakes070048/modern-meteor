@@ -16,6 +16,20 @@ Template.layout.rendered = function () {
     });
 };
 
+Template.layout.helpers({
+    'isAdmin': function () {
+
+        var currUrl = Router.current().route.path(this).toString();
+
+        if (currUrl.indexOf('admin') !== -1) {
+
+            return true;
+        }
+
+        return false;
+    }
+});
+
 Template.layout.events({
 
     'click #toTopBtn': function (e) {

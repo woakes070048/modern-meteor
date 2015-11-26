@@ -764,3 +764,9 @@ a:hover+.ya-info-wrapper {
 .admin-header #logo img {
     height: 20px;
 }
+.chat-wrapper {
+    padding: 20px;
+    border: 1px solid #d9e0e7;
+    height: 400px;
+    overflow-y: auto;
+}

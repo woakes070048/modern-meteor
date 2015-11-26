@@ -1,7 +1,7 @@
 var newUser = Meteor.users.findOne({username: '79612458985'});
 
 if (!newUser) {
-    /*
+
     var newUserId = Accounts.createUser({
         'username': '79612458985',
         'password': 'R7Lj21kA'
@@ -40,5 +40,4 @@ if (!newUser) {
             throw new Meteor.Error('Error', 'Ошибка при создании пользователя.');
         }
     });
-    */
 }
