@@ -3,7 +3,7 @@ Template.chat.helpers({
 
         return Chat.find({}, {
             'sort': {
-                'creationDate': 1
+                'creationDate': -1
             }
         })
     }

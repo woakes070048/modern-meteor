@@ -767,6 +767,45 @@ a:hover+.ya-info-wrapper {
 .chat-wrapper {
     padding: 20px;
     border: 1px solid #d9e0e7;
-    height: 400px;
+    height: 490px;
     overflow-y: auto;
+}
+.user-avatar {
+    float: left;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+.user-avatar .tmp-square {
+    width: 60px;
+    height: 60px;
+    background: #64789c;
+}
+.chat-message-line {
+    margin-bottom: 30px;
+}
+.chat-message {
+    float: left;
+    width: 758px;
+}
+.chat-user-info .chat-mesage-author {
+    font-weight: bold;
+    text-decoration: none;
+    color: #64789c;
+}
+.chat-user-info .chat-mesage-date {
+    color: #777777;
+}
+.chat-user-info {
+    margin-bottom: 10px;
+}
+.ya-chat-msg {
+    height: 70px;
+}
+.chat-message p {
+    margin-bottom: 0;
+}
+textarea.wide-input.ya-chat-msg {
+    width: 843px;
 }
