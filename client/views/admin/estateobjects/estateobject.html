@@ -1,0 +1,187 @@
+<template name="estateobject">
+    <div class="page-header">
+        <h1>
+            Редактирование объекта {{owner}}
+        </h1>
+    </div>
+    <div class="ya-actions">
+        <a href="#" class="ya-secondary-btn ya-btn save-btn saveBtn" data-id="saveBtn"><span class="fa fa-pencil-square-o"></span>Сохранить</a>
+        <a href="#" class="ya-third-btn ya-btn save-btn saveAndCloseBtn" data-id="saveAndCloseBtn"><span class="fa fa-check"></span>Сохранить и закрыть</a>
+        <a href="#" class="ya-third-btn ya-btn save-btn saveAndCreateBtn" data-id="saveAndCreateBtn"><span class="fa fa-plus"></span>Сохранить и создать</a>
+        <a href={{pathFor 'estateobjects'}} class="ya-third-btn ya-btn ya-warn backBtn" data-id="backBtn"><span class="fa fa-times-circle"></span>Отменить</a>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Основные данные:</h2>
+        <div class="info-line clearfix">
+            <div class="input-group input-text floatleft">
+                <label for="owner">ФИО собственника *</label>
+                <input type="text" class="ya-form-control" id="owner" placeholder="ФИО" value="{{owner}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="phone">Телефон *</label>
+                <input type="text" class="ya-form-control" id="phone" placeholder="Телефон" value="{{phone}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="cityblock_id">Район города *</label>
+                <select type="text" class="ya-form-control" id="cityblock_id">
+                    {{#each cityblocks}}
+                        <option value="{{_id}}" {{ifSelected}}>{{cityBlockName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="typeofestate_id">Тип недвижимости</label>
+                <select type="text" class="ya-form-control " id="typeofestate_id">
+                    {{#each typeofestates}}
+                        <option value="{{_id}}" {{ifSelected}}>{{typeOfEstateName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Информация об объекте:</h2>
+        <div class="info-line clearfix">
+            <div class="input-group input-text floatleft">
+                <label for="price">Цена *</label>
+                <input type="text" class="ya-form-control" id="price" placeholder="Цена" value="{{price}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="street">Улица *</label>
+                <input type="text" class="ya-form-control" id="street" placeholder="Улица" value="{{street}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="houseNumber">№ дома</label>
+                <input type="text" class="ya-form-control" id="houseNumber" placeholder="№ дома" value="{{houseNumber}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="repairtype_id">Тип ремонта</label>
+                <select type="text" class="ya-form-control" id="repairtype_id">
+                    {{#each repairtypes}}
+                        <option value="{{_id}}" {{ifSelected}}>{{repairTypeName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Дополнительная информация:</h2>
+        <div class="info-line clearfix">
+            <div class="input-group input-text floatleft">
+                <label for="floor">Этаж</label>
+                <input type="text" class="ya-form-control short-input" id="floor" placeholder="Этаж" value="{{floor}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="floority">Этажность</label>
+                <input type="text" class="ya-form-control short-input" id="floority" placeholder="Этажность" value="{{floority}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="furniture">Мебель</label>
+                <select class="ya-form-control short-input" id="furniture">
+                    <option value="1">да</option>
+                    <option value="0" {{ifFurniture}}>нет</option>
+                </select>
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="technics">Техника</label>
+                <select class="ya-form-control short-input" id="technics">
+                    <option value="1">да</option>
+                    <option value="0" {{ifTechnics}}>нет</option>
+                </select>
+            </div>
+
+            <div class="input-group input-text floatleft">
+                <label for="areaFull">Площадь общ.</label>
+                <input type="text" class="ya-form-control short-input" id="areaFull" placeholder="Площадь" value="{{areaFull}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="areaLiving">Площадь жил.</label>
+                <input type="text" class="ya-form-control short-input" id="areaLiving" placeholder="Площадь жил." value="{{areaLiving}}" />
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="areaKitchen">Площадь кух.</label>
+                <input type="text" class="ya-form-control short-input" id="areaKitchen" placeholder="Площадь жил." value="{{areaKitchen}}" />
+            </div>
+        </div>
+        <div class="info-line clearfix">
+            <div class="input-group input-text">
+                <label for="desc">Описание</label>
+                <textarea placeholder="Описание" class="wide-input ya-form-control" id="desc">{{desc}}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Объект на карте:</h2>
+        <div class="info-line clearfix">
+            <div id="map-wrapper">
+
+            </div>
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Изображения:</h2>
+        <div class="info-line clearfix">
+                {{> upload_bootstrap fileTypes='.jpg' multiple=true callbacks=myCallbacks formData=specificFormData}}
+        </div>
+        <div class="info-line clearfix">
+            {{#each uploadedImagesArr}}
+                <div class="uploaded-images floatleft">
+                    <img src="/upload/{{subDirectory}}/bigImage/{{name}}" />
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Служебная информация:</h2>
+        <div class="info-line clearfix">
+             <div class="input-group input-text floatleft">
+                <label for="estateobjectStatus">Статус объекта:</label>
+                <select type="text" class="ya-form-control" id="estateobjectStatus">
+                        <option value="active" {{ifActive}}>Актуальный</option>
+                        <option value="call" {{ifCall}}>Для прозвона</option>
+                        <option value="adv" {{ifAdv}}>Коммерческий</option>
+                        <option value="archive" {{ifArchive}}>Архивный</option>
+                </select>
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="source">Источник *</label>
+                <input type="text" class="ya-form-control" id="source" placeholder="Источник" value="{{source}}" />
+            </div>
+            <div class="input-group input-text checkbox-input floatleft">
+                <input  type="checkbox" class="ya-form-control" id="isOpening" />
+                <label for="isOpening"><span>Должна освободиться</span></label>
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="dateOfOpening">Дата</label>
+                <input type="text" class="ya-form-control" id="dateOfOpening" placeholder="Дата" value="{{dateOfOpening}}" />
+            </div>
+        </div>
+    </div>
+    <div class="info-wrapper">
+        <h2 class="form-title">Статус прозвона:</h2>
+        <div class="info-line clearfix">
+            <div class="input-group input-text floatleft">
+                <label for="callStatus">Статус прозвона:</label>
+                <select type="text" nclass="ya-form-control" id="callStatus">
+                        <option value="200" {{ifOK}}>ОК</option>
+                        <option value="500" {{ifND}}>Н.Д.</option>
+                        <option value="404" {{ifNO}}>Н.О.</option>
+                </select>
+            </div>
+            <div class="input-group input-text checkbox-input floatleft">
+                <input  type="checkbox" class="ya-form-control" id="isPartner" />
+                <label for="isPartner" {{isPartner}}><span>Сотрудничество</span></label>
+            </div>
+            <div class="input-group input-text floatleft">
+                <label for="notes">Заметки:</label>
+                <textarea placeholder="Заметки" class="ya-form-control " id="notes">{{notes}}</textarea>
+            </div>
+        </div>
+    </div>
+    <div class="ya-actions">
+        <a href="#" class="ya-secondary-btn ya-btn save-btn saveBtn" data-id="saveBtn"><span class="fa fa-pencil-square-o"></span>Сохранить</a>
+        <a href="#" class="ya-third-btn ya-btn save-btn saveAndCloseBtn" data-id="saveAndCloseBtn"><span class="fa fa-check"></span>Сохранить и закрыть</a>
+        <a href="#" class="ya-third-btn ya-btn save-btn saveAndCreateBtn" data-id="saveAndCreateBtn"><span class="fa fa-plus"></span>Сохранить и создать</a>
+        <a href={{pathFor 'estateobjects'}} class="ya-third-btn ya-btn ya-warn backBtn" data-id="backBtn"><span class="fa fa-times-circle"></span>Отменить</a>
+    </div>
+</template>

@@ -1,0 +1,66 @@
+<template name="estateobjectListItem">
+    <tr class="{{isInBlackList}}">
+        <td>
+            {{dateFormat creationDate format="DD.MM.YYYY HH:mm"}}
+        </td>
+        <td>
+            {{dateFormat modifyDate format="DD.MM.YYYY HH:mm"}}
+        </td>
+        <td>
+            {{owner}}
+        </td>
+        <td>
+            {{cityBlockName}}
+        </td>
+        <td>
+            {{typeOfEstateName}}
+        </td>
+        <td>
+            <div class="ya-actions-wrapper">
+                <a href="{{pathFor 'estateobject'}}" class="ya-secondary-btn editBtn">Редактировать</a>
+                <div class="ya-info-wrapper">
+                    <div class="obj-title">
+                        {{owner}}
+                    </div>
+                    <div>
+                        Район: {{cityBlockName}}
+                    </div>
+                    <div>
+                        Адрес: {{street}} {{houseNumber}}
+                    </div>
+                    <div>
+                        Тип недвижимости: {{typeOfEstateName}}
+                    </div>
+                    <div>
+                        Цена: {{price}}
+                    </div>
+                    <div>
+                        Тип ремонта: {{repairTypeName}}
+                    </div>
+                    <div>
+                        Мебель: {{isFurniture}}
+                    </div>
+                    <div>
+                        Техника: {{isTechnics}}
+                    </div>
+                    <div>
+                        Телефон: {{phone}}
+                    </div>
+                    <div>
+                        {{#if isOpening}}
+                            Должна освободиться: {{dateFormat dateOfOpening format="DD.MM.YYYY"}}
+                        {{/if}}
+                    </div>
+                    <div>
+                        Статус прозвона: {{yaCallStatus}}
+                    </div>
+                    <div>
+                        Сотрудничество: {{isOurParner}}
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="ya-third-btn archiveBtn" data-id="{{_id}}">Архивировать</button>
+            </div>
+        </td>
+    </tr>
+</template>

@@ -25,3 +25,6 @@ iron:router
 steeve:moment-dateformat
 underscorestring:underscore.string
 check
+reactive-var
+tomi:upload-server
+tomi:upload-jquery

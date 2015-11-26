@@ -761,3 +761,6 @@ a:hover+.ya-info-wrapper {
 #ya-map {
   height: 300px;
 }
+.admin-header #logo img {
+    height: 20px;
+}
