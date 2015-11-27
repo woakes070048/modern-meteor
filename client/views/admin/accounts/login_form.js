@@ -33,7 +33,7 @@ Template.loginForm.events({
                 showNotice('error', 'Неверный логин или пароль.');
             }
 
-            Router.go('adminIndexPage');
+            Router.go('chat');
         });
     }
 });

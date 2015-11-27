@@ -41,3 +41,43 @@ if (!newUser) {
         }
     });
 }
+
+
+// Permitions list
+
+var permitions = [
+    {
+        'name': 'denied',
+        'title': 'Запрещено'
+    },
+    {
+        'name': 'view',
+        'title': 'Чтение'
+    },
+    {
+        'name': 'create',
+        'title': 'Создание'
+    },
+    {
+        'name': 'update',
+        'title': 'Редактирование'
+    },
+    {
+        'name': 'archive',
+        'title': 'Архивирование'
+    },
+    {
+        'name': 'delete',
+        'title': 'Удаление'
+    }
+];
+
+var testPermition = Permitions.findOne({'name': 'view'});
+
+if (!testPermition) {
+
+    _.each(permitions, function (element) {
+
+        Permitions.insert(element);
+    });
+}

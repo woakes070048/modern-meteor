@@ -13,7 +13,7 @@ Template.profile.events({
 
             'newPassword': $.trim(YaRequest.getAlnum('newPassword', '', 'INPUT'))
 
-        };                
+        };
 
 
         if (!entity.oldPassword) {
@@ -33,10 +33,14 @@ Template.profile.events({
             if (error) {
 
                 // display the error to the user
-                alert(error.reason);
+                showNotice('error', error.reason);
+                $(document).scrollTop(0);
+                return;
             } else {
 
-                alert('Профиль сохранен')
+                showNotice('note', 'Пароль успешно изменен.');
+                $(document).scrollTop(0);
+                return;
             }
         });
     }
