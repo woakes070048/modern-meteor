@@ -1,5 +1,10 @@
 Template.city.helpers({
 
+    'cityName': function () {
+
+        return xssFilters.uriInUnQuotedAttr(this.cityName)
+    },
+
     'isActive': function () {
 
         if (this.isActive) {
