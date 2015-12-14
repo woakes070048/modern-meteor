@@ -2,42 +2,55 @@ Meteor.publish('cityblocks', function () {
 
     if (this.userId) {
 
-        if (Roles.userIsInRole(this.userId, ['admin'])) {
+        var userId = YaFilter.clean({
+            source: s(this.userId).trim().value(),
+            type: 'AlNum'
+        });
 
-            return CityBlocks.find({}, {
+        var AclPublish = new AclForPublish(userId);
 
-                'fields': {
-                    'cityName': 1,
-                    'cityBlockName': 1,
-                    'creationDate': 1
-                },
-                
-                'sort': {
-                    'cityName': 1,
-                    'cityBlockName': 1
-                }
-            });
+        var isAllowed = AclPublish.isAllowed(userId, 'roles', ['read']);
+
+        if (isAllowed) {
+
+            var role_ids = AclPublish.getAllRolesIds();
+
+            var allowedFields = AclPublish.allowedFields(userId, 'roles');
+
+            if (allowedFields) {
+
+                var fields = {};
+
+                _.each(allowedFields, function (allowedField) {
+
+                    allowedField = YaFilter.clean({
+                        source: s(allowedField).trim().value(),
+                        type: 'AlNum'
+                    });
+
+                    fields[allowedField] = 1;
+                });
+
+                return CityBlocks.find({},
+                {
+                    'fields': fields
+                });
+            } else {
+
+                return CityBlocks.find({});
+            }
         } else {
 
-            // user not authorized
+            // User is not authorized
             this.ready();
             return [];
         }
     } else {
 
-        // user not authorized
-        return CityBlocks.find({'isActive': true}, {
-
-            'fields': {
-                'city_id': 1,
-                'cityBlockName': 1
-            },
-            
-            'sort': {
-                'cityBlockName': 1
-            }
-        });
-    } 
+        // User is not authorized
+        this.ready();
+        return [];
+    }
 });
 
 Meteor.publish('cityblockById', function (id) {
@@ -50,7 +63,7 @@ Meteor.publish('cityblockById', function (id) {
                 source: s(id).trim().value(),
                 type: 'AlNum'
             });
-            
+
             return CityBlocks.find({_id: id}, {
 
                 'fields': {
@@ -72,7 +85,7 @@ Meteor.publish('cityblockById', function (id) {
         // User is not authorized
         this.ready();
         return [];
-    } 
+    }
 });
 
 Meteor.publish('cityblockByCity', function (id) {
@@ -85,7 +98,7 @@ Meteor.publish('cityblockByCity', function (id) {
                 source: s(id).trim().value(),
                 type: 'AlNum'
             });
-            
+
             return CityBlocks.find({city_id: id}, {
 
                 'fields': {
@@ -110,7 +123,7 @@ Meteor.publish('cityblockByCity', function (id) {
         // User is not authorized
         this.ready();
         return [];
-    } 
+    }
 });
 
 Meteor.publish('cityblocksByUser', function () {

@@ -7,8 +7,6 @@ if (!newUser) {
         'password': 'R7Lj21kA'
     });
 
-    Roles.addUsersToRoles(newUserId, ['admin']);
-
     var city = Cities.findOne({
         'cityName': 'Иваново'
     });
@@ -40,6 +38,77 @@ if (!newUser) {
             throw new Meteor.Error('Error', 'Ошибка при создании пользователя.');
         }
     });
+
+    if (!AclRoles.findOne({'roleName': 'admin'})) {
+
+        var role_id = AclRoles.insert({
+            'roleName': 'admin'
+        });
+    } else {
+
+        var role_id = AclRoles.findOne({'roleName': 'admin'})._id
+    }
+
+    UsersRoles.upsert({
+        'userId': newUserId,
+        'role_id': role_id
+    }, {
+        $set: {
+            'userId': newUserId,
+            'role_id': role_id
+        }
+    });
+
+    if (!Resources.findOne({'resourceName': 'roles'})) {
+
+        var resource_id = Resources.insert({
+            'resourceName': 'roles'
+        });
+    } else {
+
+        var resource_id = Resources.findOne({'resourceName': 'roles'})._id
+    }
+
+    var permitions = ['read', 'create', 'edit', 'delete'];
+
+    _.each(permitions, function (permition) {
+
+        RolesPermitions.upsert({
+            'role_id': role_id,
+            'resource_id': resource_id,
+            'permition': permition,
+        },
+        {
+            $set: {
+                'role_id': role_id,
+                'resource_id': resource_id,
+                'permition': permition,
+                'fields': false
+            }
+        });
+
+    });
+
 } else {
 
 }
+
+var resources = [
+    'cityblocks',
+    'cities',
+    'repairtypes',
+    'sources',
+    'typeofestates'
+];
+
+_.each(resources, function (resource) {
+
+    Resources.upsert({
+        'resourceName': resource
+    },
+    {
+        $set: {
+            'resourceName': resource
+        }
+    });
+});
