@@ -1,11 +1,7 @@
 <template name="layout">
     <div class="ya-wrapper">
         {{#if currentUser}}
-            {{#if isAdmin}}
-                {{> authorisedContent}}
-            {{else}}
-                {{> unAuthorisedContent}}
-            {{/if}}
+            {{> authorisedContent}}
         {{else}}
             {{> unAuthorisedContent}}
         {{/if}}
