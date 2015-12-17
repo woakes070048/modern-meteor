@@ -809,3 +809,7 @@ a:hover+.ya-info-wrapper {
 textarea.wide-input.ya-chat-msg {
     width: 843px;
 }
+.resource-title {
+    color: #ffffff;
+    background: #64789c;
+}
