@@ -112,3 +112,23 @@ _.each(resources, function (resource) {
         }
     });
 });
+
+if (!AclRoles.findOne({'roleName': 'guest'})) {
+
+    var role_id = AclRoles.insert({
+        'roleName': 'guest'
+    });
+} else {
+
+    var role_id = AclRoles.findOne({'roleName': 'guest'})._id
+}
+
+UsersRoles.upsert({
+    'userId': 'guest',
+    'role_id': role_id
+}, {
+    $set: {
+        'userId': 'guest',
+        'role_id': role_id
+    }
+});

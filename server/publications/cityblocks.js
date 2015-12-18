@@ -13,9 +13,7 @@ Meteor.publish('cityblocks', function () {
 
         if (isAllowed) {
 
-            var role_ids = AclPublish.getAllRolesIds();
-
-            var allowedFields = AclPublish.allowedFields(userId, 'roles');
+            var allowedFields = AclPublish.allowedFields(userId, 'roles', 'read');
 
             if (allowedFields) {
 

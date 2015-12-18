@@ -29,14 +29,15 @@ Template.resourceRightsItem.helpers({
 
                     if (rolePerm.fields && _.isArray(rolePerm.fields)) {
 
-                        _.each(fileds, function (field, index) {
+                        console.log(rolePerm.fields);
+                        _.each(rolePerm.fields, function (field, index) {
 
                             if (index !== 0) {
 
                                 fields += ';';
                             }
 
-                            fileds += field.toString();
+                            fields += field.toString();
                         });
                     }
 
@@ -59,5 +60,68 @@ Template.resourceRightsItem.helpers({
         });
 
         return rolesArr;
+    }
+});
+
+Template.resourceRightsItem.events({
+    'click .save-btn': function (e) {
+
+        e.preventDefault();
+
+        var that = this;
+
+        var permNames = ['list', 'read', 'edit', 'create', 'delete'];
+
+        var entity = {};
+
+        var roles = AclRoles.find().fetch();
+
+        _.each(roles, function (role) {
+
+            entity[role.roleName] = {};
+
+            _.each(permNames, function (permName) {
+
+                var fields = $.trim(YaRequest.getString('fields-' + permName + '-' + role.roleName + '-' + that.resourceName, '', 'INPUT'));
+
+                if (fields) {
+
+                    var fieldsArr = fields.split(';');
+
+                    var fieldsVal = [];
+
+                    _.each(fieldsArr, function (fieldsArrVal) {
+
+                        fieldsVal.push(YaFilter.clean({
+                            'source': s(fieldsArrVal).trim().value(),
+                            'type': 'Word'
+                        }));
+                    });
+                } else {
+
+                    var fieldsVal = false;
+                }
+
+                entity[role.roleName][permName] = {
+                    'isAllowed': YaRequest.getBool('perm-' + permName + '-' + role.roleName + '-' + that.resourceName, false, 'SELECT'),
+                    'fields':  fieldsVal
+                };
+            });
+        });
+
+        console.log(entity);
+
+        Meteor.call('setPermitions', that.resourceName, entity, function (error, obj) {
+
+            if (error) {
+
+                // display the error to the user
+                showNotice('error', 'Ошибка при сохранении.');
+                return;
+            } else {
+
+                showNotice('note', 'Запись сохранена');
+            }
+        });
     }
 });

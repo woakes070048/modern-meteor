@@ -2,53 +2,79 @@ Meteor.publish('cities', function (onlyActive) {
 
     if (this.userId) {
 
-        if (onlyActive) {
+        var userId = YaFilter.clean({
+            source: s(this.userId).trim().value(),
+            type: 'AlNum'
+        });
+    } else {
 
-            var searchObj = {
-                'isActive': true
-            };
-        } else {
-            
-            searchObj = {};
-        }
+        var userId = null;
+    }
 
-        if (Roles.userIsInRole(this.userId, ['admin'])) {
+    var AclPublish = new AclForPublish(userId);
 
-            return Cities.find(searchObj, {
+    var isAllowedRead = AclPublish.isAllowed(userId, 'cities', ['read']);
+    var isAllowedList = AclPublish.isAllowed(userId, 'cities', ['list']);
 
-                'fields': {
-                    'cityName': 1,
-                    'coordX': 1,
-                    'coordY': 1,
-                    'creationDate': 1
-                },
+    if (isAllowedRead) {
 
-                'sort': {
-                    'cityName': 1,
-                    'creationDate': 1
-                }
+        var allowedFields = AclPublish.allowedFields(userId, 'cities', 'read');
+
+        console.log(allowedFields);
+
+        if (allowedFields && _.isArray(allowedFields)) {
+
+            var fields = {};
+
+            _.each(allowedFields, function (allowedField) {
+
+                allowedField = YaFilter.clean({
+                    source: s(allowedField).trim().value(),
+                    type: 'AlNum'
+                });
+
+                fields[allowedField] = 1;
+            });
+
+            return Cities.find({},
+            {
+                'fields': fields
             });
         } else {
 
-            // User does not have permissions
-            this.ready();
-            return [];
+            return Cities.find({});
+        }
+    } else if (isAllowedList) {
+
+        var allowedFields = AclPublish.allowedFields(userId, 'cities', 'list');
+
+        if (allowedFields && _.isArray(allowedFields)) {
+
+            var fields = {};
+
+            _.each(allowedFields, function (allowedField) {
+
+                allowedField = YaFilter.clean({
+                    source: s(allowedField).trim().value(),
+                    type: 'AlNum'
+                });
+
+                fields[allowedField] = 1;
+            });
+
+            return Cities.find({},
+            {
+                'fields': fields
+            });
+        } else {
+
+            return Cities.find({});
         }
     } else {
 
-        // User is not authorized
-        return Cities.find({'isActive': true}, {
-
-            'fields': {
-
-                'cityName': 1
-            },
-
-            'sort': {
-
-                'cityName': 1
-            }
-        });
+        // User does not have permissions
+        this.ready();
+        return [];
     }
 });
 
