@@ -60,6 +60,11 @@ Template.resourceRightsItem.helpers({
         });
 
         return rolesArr;
+    },
+
+    'testP': function () {
+
+        return '<p>test</p>';
     }
 });
 
@@ -116,7 +121,7 @@ Template.resourceRightsItem.events({
             if (error) {
 
                 // display the error to the user
-                showNotice('error', 'Ошибка при сохранении.');
+                showNotice('error', error.reason);
                 return;
             } else {
 

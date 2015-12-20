@@ -5,7 +5,7 @@ AclForPublish = function (userId) {
     this.userId = userId;
 }
 
-AclForPublish.prototype = Acl;
+AclForPublish.prototype = new YaAcl();
 
 AclForPublish.prototype.constructor = AclForPublish;
 
