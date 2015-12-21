@@ -1,167 +1,47 @@
-Meteor.publish('cityblocks', function () {
+Meteor.publish('cityblocks', YaPublisher(Cities, 'cityblocks', ['read']));
 
-    if (this.userId) {
+Meteor.publish('cityblockById', YaPublisher(Cities, 'cityblocks', ['read'], function (context, id) {
+
+    id = YaFilter.clean({
+        source: s(id).trim().value(),
+        type: 'AlNum'
+    });
+
+    return {
+        _id: id
+    };
+}));
+
+Meteor.publish('cityblockByCity', YaPublisher(Cities, 'cityblocks', ['read'], function (context, id) {
+
+    id = YaFilter.clean({
+        source: s(id).trim().value(),
+        type: 'AlNum'
+    });
+
+    return {
+        city_id: id
+    };
+}));
+
+Meteor.publish('cityblocksByUser', YaPublisher(Cities, 'cityblocks', ['list'], function (context, id) {
+
+    if (context.userId) {
 
         var userId = YaFilter.clean({
-            source: s(this.userId).trim().value(),
+            source: s(context.userId).trim().value(),
             type: 'AlNum'
         });
 
-        var AclPublish = new AclForPublish(userId);
+        loggedInUser = Meteor.users.findOne(userId);
 
-        var isAllowed = AclPublish.isAllowed(userId, 'roles', ['read']);
-
-        if (isAllowed) {
-
-            var allowedFields = AclPublish.allowedFields(userId, 'roles', 'read');
-
-            if (allowedFields) {
-
-                var fields = {};
-
-                _.each(allowedFields, function (allowedField) {
-
-                    allowedField = YaFilter.clean({
-                        source: s(allowedField).trim().value(),
-                        type: 'AlNum'
-                    });
-
-                    fields[allowedField] = 1;
-                });
-
-                return CityBlocks.find({},
-                {
-                    'fields': fields
-                });
-            } else {
-
-                return CityBlocks.find({});
-            }
-        } else {
-
-            // User is not authorized
-            this.ready();
-            return [];
-        }
+        var city_id = loggedInUser.city_id;
     } else {
 
-        // User is not authorized
-        this.ready();
-        return [];
+        var city_id = Cities.findOne({'cityName': 'Иваново'})._id;
     }
-});
 
-Meteor.publish('cityblockById', function (id) {
-
-    if (this.userId) {
-
-        if (Roles.userIsInRole(this.userId, ['admin'])) {
-
-            id = YaFilter.clean({
-                source: s(id).trim().value(),
-                type: 'AlNum'
-            });
-
-            return CityBlocks.find({_id: id}, {
-
-                'fields': {
-
-                        'city_id': 1,
-                        'cityBlockName': 1,
-                        'creationDate': 1,
-                        'isActive': 1
-                    }
-            });
-        } else {
-
-            // User does not have permissions
-            this.ready();
-            return [];
-        }
-    } else {
-
-        // User is not authorized
-        this.ready();
-        return [];
-    }
-});
-
-Meteor.publish('cityblockByCity', function (id) {
-
-    if (this.userId) {
-
-        if (Roles.userIsInRole(this.userId, ['admin'])) {
-
-            id = YaFilter.clean({
-                source: s(id).trim().value(),
-                type: 'AlNum'
-            });
-
-            return CityBlocks.find({city_id: id}, {
-
-                'fields': {
-                    'cityName': 1,
-                    'city_id': 1,
-                    'cityBlockName': 1,
-                    'creationDate': 1,
-                    'isActive': 1
-                },
-                'sort': {
-                    'cityBlockName': 1
-                }
-            });
-        } else {
-
-            // User does not have permissions
-            this.ready();
-            return [];
-        }
-    } else {
-
-        // User is not authorized
-        this.ready();
-        return [];
-    }
-});
-
-Meteor.publish('cityblocksByUser', function () {
-
-    var loggedInUser;
-
-
-    if (this.userId) {
-
-        loggedInUser = Meteor.users.findOne(this.userId);
-
-        return CityBlocks.find({
-            'city_id': loggedInUser.city_id,
-            'isActive': true
-        }, {
-
-            'fields': {
-                'cityBlockName': 1
-            },
-
-            'sort': {
-                'cityBlockName': 1
-            }
-        });
-    } else {
-
-        var city = Cities.findOne({'cityName': 'Иваново'});
-
-        return CityBlocks.find({
-            'city_id': city._id,
-            'isActive': true
-        }, {
-
-            'fields': {
-                'cityBlockName': 1
-            },
-
-            'sort': {
-                'cityBlockName': 1
-            }
-        });
-    }
-});
+    return {
+        city_id: city_id
+    };
+}));
