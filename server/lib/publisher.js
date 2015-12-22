@@ -20,7 +20,7 @@ YaPublisher = function (publishCollection, publishResource, publishPermitions, p
 
             if (isAllowedPub) {
 
-                if (!(publishFilters && _.isFunction(publishFilters))) {
+                if (!publishFilters || !(_.isFunction(publishFilters))) {
 
                     filters = {};
                 } else {

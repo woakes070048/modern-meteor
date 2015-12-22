@@ -1,6 +1,6 @@
-Meteor.publish('cityblocks', YaPublisher(Cities, 'cityblocks', ['read']));
+Meteor.publish('cityblocks', YaPublisher(CityBlocks, 'cityblocks', ['read']));
 
-Meteor.publish('cityblockById', YaPublisher(Cities, 'cityblocks', ['read'], function (context, id) {
+Meteor.publish('cityblockById', YaPublisher(CityBlocks, 'cityblocks', ['read'], function (context, id) {
 
     id = YaFilter.clean({
         source: s(id).trim().value(),
@@ -12,7 +12,7 @@ Meteor.publish('cityblockById', YaPublisher(Cities, 'cityblocks', ['read'], func
     };
 }));
 
-Meteor.publish('cityblockByCity', YaPublisher(Cities, 'cityblocks', ['read'], function (context, id) {
+Meteor.publish('cityblockByCity', YaPublisher(CityBlocks, 'cityblocks', ['read'], function (context, id) {
 
     id = YaFilter.clean({
         source: s(id).trim().value(),
@@ -24,7 +24,7 @@ Meteor.publish('cityblockByCity', YaPublisher(Cities, 'cityblocks', ['read'], fu
     };
 }));
 
-Meteor.publish('cityblocksByUser', YaPublisher(Cities, 'cityblocks', ['list'], function (context, id) {
+Meteor.publish('cityblocksByUser', YaPublisher(CityBlocks, 'cityblocks', ['list'], function (context, id) {
 
     if (context.userId) {
 

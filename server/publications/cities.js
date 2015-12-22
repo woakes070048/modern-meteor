@@ -1,5 +1,4 @@
 Meteor.publish('cities', YaPublisher(Cities, 'cities', ['read']));
-
 Meteor.publish('cityById', YaPublisher(Cities, 'cities', ['read'], function (context, id) {
 
     id = YaFilter.clean({
@@ -11,7 +10,6 @@ Meteor.publish('cityById', YaPublisher(Cities, 'cities', ['read'], function (con
         _id: id
     };
 }));
-
 Meteor.publish('citiesByUser', YaPublisher(Cities, 'cities', ['list'], function (context) {
 
     if (context.userId) {
